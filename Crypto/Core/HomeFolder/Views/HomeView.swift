@@ -8,21 +8,25 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var showPortfolio:Bool = false
+    @State private var showPortfolio:Bool = false// animate right
+    @State private var showPortfolioView: Bool = false // new sheet
+    
     @EnvironmentObject private var vm: HomeViewModel
     var body: some View {
         ZStack{
             //background layer
             Color.theme.background
                 .ignoresSafeArea()
+                .sheet(isPresented: $showPortfolioView, content: {
+                    PortfolioView()
+                        .environmentObject(vm)
+                })
             //content layer
             VStack{
                homeHeader
+                HomeStatsView(showPortfolio: $showPortfolio)
                 SearchBarView(searchText: $vm.searchText)
                columnTitles
-                
-                
-                
                 if !showPortfolio{
                    allcoinsList
                     .transition(.move(edge: .leading))
@@ -52,6 +56,11 @@ extension HomeView{
         HStack{
             CircleButtonView(iconName: showPortfolio ? "plus" : "info")
                 .animation(.none, value: 0)
+                .onTapGesture {
+                    if showPortfolio{
+                        showPortfolioView.toggle()
+                    }
+                }
                 .background(
                 CircleButtonAnimationView(animate: $showPortfolio))
             Spacer()
@@ -83,7 +92,7 @@ extension HomeView{
     private var portfolioCoinList : some View{
         List{
             ForEach(vm.portfolioCoins) { coin in
-                CoinRowView(showHoldingsColumn:true , coin: DeveloperPreview.instance.coin)
+                CoinRowView(showHoldingsColumn:true , coin: coin)
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
             }
         }
@@ -99,6 +108,14 @@ extension HomeView{
             }
             Text("Price")
                 .frame(width: (UIScreen.main.bounds.width) / 3.5, alignment: .trailing)
+            Button(action: {
+                withAnimation(.linear(duration: 2.0)) {
+                    vm.reloadData()
+                }
+            }, label: {
+                Image(systemName: "goforward")
+            })
+            .rotationEffect(Angle(degrees: (vm.isLoading ? 360 : 0)),anchor:.center)
 
         }
         .font(.caption)
