@@ -12,7 +12,7 @@ struct DetailView: View {
     @Binding var coin:CoinModel?
     init(coin: Binding<CoinModel?>) {
         self._coin = coin
-        print("Initialise detailview for \(String(describing: coin.wrappedValue?.name))")
+        print("Initialise detailview \(String(describing: coin.wrappedValue?.name))")
     }
     var body: some View {
         Text(coin?.name ?? "")
