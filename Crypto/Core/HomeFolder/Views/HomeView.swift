@@ -43,9 +43,14 @@ struct HomeView: View {
             
         }
         .background(
-            NavigationLink(destination: DetailView(coin: $selectedCoin), isActive: .constant(true), label: {
-                Text("Navigate")
-            })
+//            NavigationLink("Navigate", value: $selectedCoin)
+//                .navigationDestination(isPresented: $showDetailView, destination: DetailView(coin: $selectedCoin))
+//                
+////                NavigationLink(destination: DetailView(coin: $selectedCoin), label: {
+////                    Text("Navigate")
+////                })
+//              
+            
         )
     }
 }
@@ -89,11 +94,12 @@ extension HomeView{
     private var allcoinsList : some View{
         List{
             ForEach(vm.allCoins) { coin in
-                CoinRowView(showHoldingsColumn:false , coin: coin)
-                    .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
-                    .onTapGesture {
-                        segue(coin: coin)
-                    }
+                NavigationLink(destination: DetailView(coin: coin)) {
+                    CoinRowView(showHoldingsColumn:false , coin: coin)
+                        .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+                }
+                
+                    
             }
         }
         .listStyle(PlainListStyle())
@@ -106,6 +112,7 @@ extension HomeView{
                     .onTapGesture {
                         segue(coin: coin)
                     }
+                 
             }
         }
         .listStyle(PlainListStyle())

@@ -9,16 +9,16 @@ import SwiftUI
 
 struct DetailView: View {
     
-    @Binding var coin:CoinModel?
-    init(coin: Binding<CoinModel?>) {
-        self._coin = coin
-        print("Initialise detailview \(String(describing: coin.wrappedValue?.name))")
+     var coin:CoinModel
+    init(coin: CoinModel) {
+        self.coin = coin
+        print("Initialise detailview for \(String(describing: coin.name))")
     }
     var body: some View {
-        Text(coin?.name ?? "")
+        Text(coin.name)
     }
 }
 
 #Preview {
-    DetailView(coin: .constant(DeveloperPreview.instance.coin))
+    DetailView(coin: DeveloperPreview.instance.coin)
 }
