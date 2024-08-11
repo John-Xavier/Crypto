@@ -12,6 +12,7 @@ struct PortfolioView: View {
     @State var selectedCoin: CoinModel? = nil
     @State private var quantityText : String = ""
     @State private var showCheckmark : Bool = false
+    //consider for pull request
     var body: some View {
         NavigationStack{
             ScrollView{
