@@ -21,10 +21,13 @@ struct CryptoApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationStack{
-                HomeView()
-                .toolbar(.hidden)   
-            }.environmentObject(vm)
+            ZStack{
+                NavigationStack{
+                    HomeView()
+                        .toolbar(.hidden)
+                }.environmentObject(vm)
+                LaunchView()
+            }
         }
     }
 }
